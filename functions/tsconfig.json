@@ -8,10 +8,14 @@
     "outDir": "lib",
     "sourceMap": true,
     "strict": true,
-    "target": "es2017"
+    "target": "es2017",
+    "allowJs": true
   },
   "compileOnSave": true,
   "include": [
     "src"
+  ],
+  "files": [
+    "eslint.config.js"
   ]
 }
