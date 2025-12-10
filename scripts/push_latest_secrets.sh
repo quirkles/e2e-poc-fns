@@ -17,15 +17,9 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-printf "Remote secret:\n$REMOTE_SECRET\n"
-printf "Local secret:\n$(cat $SECRETS_FILE)\n"
-
 # Calculate MD5 hashes
 LOCAL_MD5=$(cat "$SECRETS_FILE" | tr -d '\n' | md5sum | cut -d' ' -f1)
 REMOTE_MD5=$(echo "$REMOTE_SECRET" | tr -d '\n' | md5sum | cut -d' ' -f1)
-
-echo "Local MD5: $LOCAL_MD5"
-echo "Remote MD5: $REMOTE_MD5"
 
 # Compare hashes and update if different
 if [ "$LOCAL_MD5" != "$REMOTE_MD5" ]; then
