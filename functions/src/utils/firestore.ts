@@ -1,45 +1,42 @@
-import * as admin from "firebase-admin";
+import { initializeApp, App } from "firebase-admin/app";
+import { Auth, getAuth as fbAuth } from "firebase-admin/auth";
+import {
+  Firestore,
+  getFirestore as fbFirestore,
+} from "firebase-admin/firestore";
+import { Storage, getStorage as fbStorage } from "firebase-admin/storage";
 
-let firebase: admin.app.App | null = null;
+let firebase: App | null = null;
 
-export const getFirebase = (): admin.app.App => {
-  firebase ??= admin.initializeApp();
+export const getFirebase = (): App => {
+  firebase ??= initializeApp();
   return firebase;
 };
 
-let firestore: admin.firestore.Firestore | null = null;
-export const getFirestore = (): admin.firestore.Firestore => {
+let firestore: Firestore | null = null;
+export const getFirestore = (): Firestore => {
   if (!firebase) {
     getFirebase();
   }
-  firestore ??= admin.firestore();
+  firestore ??= fbFirestore();
   return firestore;
 };
 
-let storage: admin.storage.Storage | null = null;
-export const getStorage = (): admin.storage.Storage => {
+let storage: Storage | null = null;
+export const getStorage = (): Storage => {
   if (!firebase) {
     getFirebase();
   }
-  storage ??= admin.storage();
+  storage ??= fbStorage();
   return storage;
 };
 
-let database: admin.database.Database | null = null;
-export const getRealtimeDB = (): admin.database.Database => {
+let auth: Auth | null = null;
+export const getAuth = (): Auth => {
   if (!firebase) {
     getFirebase();
   }
-  database ??= admin.database();
-  return database;
-};
-
-let auth: admin.auth.Auth | null = null;
-export const getAuth = (): admin.auth.Auth => {
-  if (!firebase) {
-    getFirebase();
-  }
-  auth ??= admin.auth();
+  auth ??= fbAuth();
   return auth;
 };
 
