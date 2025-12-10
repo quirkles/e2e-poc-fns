@@ -1,0 +1,45 @@
+steps:
+  # Install dependencies
+  - name: 'node:22'
+    id: 'install-dependencies'
+    dir: 'functions'
+    entrypoint: 'npm'
+    args: ['ci']
+
+  # Fetch secrets and create .env file
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: 'fetch-secrets'
+    dir: 'functions'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        gcloud secrets versions access latest --secret=fns-env-file --project=e2e-poc-web > .env
+
+  # Run linting
+  - name: 'node:22'
+    id: 'lint'
+    dir: 'functions'
+    entrypoint: 'npm'
+    args: ['run', 'lint']
+
+  # Build TypeScript
+  - name: 'node:22'
+    id: 'build'
+    dir: 'functions'
+    entrypoint: 'npm'
+    args: ['run', 'build']
+
+  # Deploy to Firebase Functions
+  - name: 'us-docker.pkg.dev/firebase-cli/us/firebase'
+    id: 'deploy-functions'
+    args:
+      - 'deploy'
+      - '--only'
+      - 'functions'
+
+timeout: '1800s'
+
+options:
+  logging: CLOUD_LOGGING_ONLY
+  machineType: 'N1_HIGHCPU_8'
