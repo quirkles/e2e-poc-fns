@@ -13,6 +13,7 @@ export default defineConfig([
       "coverage/",
       "lib/**/*",
       "generated/**/*",
+      "eslint.config.js",
     ],
   },
   tsEslint.configs.recommendedTypeChecked,
