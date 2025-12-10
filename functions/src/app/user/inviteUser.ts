@@ -9,7 +9,6 @@ const bodySchema = z.object({
 });
 
 const functionConfig = {
-  useAppCheck: true,
   bodySchema,
 } as const;
 
