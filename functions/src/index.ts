@@ -1,6 +1,6 @@
 import { setGlobalOptions } from "firebase-functions";
 
-import { inviteUser } from "./app/user/index.js";
+import { inviteUser, onUserCreate } from "./app/user/index.js";
 
 /**
  * Import function triggers from their respective submodules:
@@ -28,4 +28,5 @@ setGlobalOptions({ maxInstances: 10 });
 
 export const user = {
   inviteUser,
+  onUserCreate,
 };
